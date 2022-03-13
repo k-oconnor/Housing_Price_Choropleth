@@ -3,6 +3,8 @@
 
 import csv
 import os
+import re
+import numpy as np
 import pandas as pd
 # cd into the project repo for the relative paths to work. For example:
 # cd /Users/amalkadri/Documents/GitHub/Python_Econ395m/eco395m-homework-6/
@@ -23,7 +25,7 @@ census_data_raw.isna().sum() #no missing value
 county_time_raw.isna().sum()
 
 #replace missing values with 0
-county_time_raw[['9/30/2021', '10/31/2021', '11/30/2021']] = county_time_raw[['9/30/2021', '10/31/2021', '11/30/2021']].fillna(value = 0)
+county_time_raw[['1/31/2000', '2/29/2000', '3/31/2000', '4/30/2000', '9/30/2021', '10/31/2021', '11/30/2021']] = county_time_raw[['1/31/2000', '2/29/2000', '3/31/2000', '4/30/2000', '9/30/2021', '10/31/2021', '11/30/2021']].fillna(value = 0)
 
 #Dictionary of full state names and abbreviations
 state_to_abb = {
@@ -100,5 +102,17 @@ for abb in county_time_raw['State']:
         state_names.append(key_list[position]) 
 
 county_time_raw['STNAME'] = state_names
+
+#select state names column and the data columns
+house_prices = county_time_raw[['STNAME']].join(county_time_raw.loc[:,['/' in i for i in county_time_raw.columns]])
+
+#group all counties by states and calculate mean for each columns
+house_prices = house_prices.groupby('STNAME').mean()
+
+#add percentage change column
+house_prices['change'] = (house_prices['1/31/2022'] / house_prices['1/31/2000']) * 100
+
+
+print(house_prices)
 
 
