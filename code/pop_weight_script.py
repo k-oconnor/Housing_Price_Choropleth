@@ -3,15 +3,16 @@
 
 import csv
 import os
+from pickle import FALSE
 import re
 import numpy as np
 import pandas as pd
 # cd into the project repo for the relative paths to work. For example:
 # cd /Users/amalkadri/Documents/GitHub/Python_Econ395m/eco395m-homework-6/
 IN_PATH = os.path.join("data", "2010-2019-Census-Data-raw.csv")
-OUTPUT_DIR = "artifacts"
-FINAL_HOUSE_PATH = os.path.join(OUTPUT_DIR, "zillow_clean.csv")
-FINAL_CENSUS_PATH = os.path.join(OUTPUT_DIR, "census_clean.csv")
+OUTPUT_DIR = "data"
+FINAL_PATH = os.path.join(OUTPUT_DIR, "zillow_census_clean.csv")
+
 
 '''make sure to do some preliminary checking to make sure the county names match and are the same object time to make merging easier'''
 
@@ -141,13 +142,17 @@ census_index['POPWEIGHT'] = census_index['POPULATION'].div(census_index['STATEPO
 census_index = census_index[census_index["STNAME"] != census_index["CTYNAME"]]
 # print(census_index)
 
-
+# merge zillow and pop
 all_data = pd.merge(zillow_melt, 
 census_index,
 how = "inner", 
 on = ['STNAME', 'CTYNAME', 'YEAR'])
 
-print(all_data)
+
+all_data['W_PRICE'] = all_data['POPWEIGHT'].mul(all_data['PRICE']).round(decimals=2)
+Merged_Final = all_data[['STNAME', 'CTYNAME', 'PRICE', 'YEAR', 
+    'POPULATION', 'STATEPOP', 'POPWEIGHT', 'W_PRICE']]
+Merged_Final.to_csv(FINAL_PATH)
 
 '''
 #select state names column and the data columns
