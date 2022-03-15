@@ -107,7 +107,6 @@ county_time_raw['STNAME'] = state_names
 
 county_time_raw['CTYNAME'] = county_time_raw['RegionName']
 
-# print(county_time_raw)
 
 zillow_raw = county_time_raw.loc[:, county_time_raw.columns.str.contains('12/31') 
 | county_time_raw.columns.str.contains('CTYNAME') 
@@ -115,12 +114,8 @@ zillow_raw = county_time_raw.loc[:, county_time_raw.columns.str.contains('12/31'
 
 zillow_melt = zillow_raw.melt(id_vars=['STNAME', 'CTYNAME'], value_vars = ['12/31/2010', '12/31/2011', '12/31/2012', '12/31/2013', '12/31/2014', '12/31/2015', '12/31/2016', '12/31/2017', '12/31/2018', '12/31/2019'], var_name = 'DATE')
 
-zillow_melt['YEAR'] = zillow_melt['DATE'][7:]
+zillow_melt['YEAR'] = (zillow_melt['DATE'].str.slice(start=6)).astype('int')
 
-
-
-print(zillow_melt)
-# zillow_raw = county_time_raw[['STNAME', 'CTYNAME','12/31/2000', '12/31/2001', '12/31/2002', '12/31/2003', '12/31/2004', '12/31/2005', '12/31/2006', '12/31/2007', '12/31/2008', '12/31/2009', '12/31/2010', '12/31/2011', '12/31/2012', '12/31/2013', '12/31/2014', '12/31/2015', '12/31/2016', '12/31/2017', '12/31/2018', '12/31/2019', '12/31/2020', '12/31/2021']]
 
 census_raw = census_data_raw.loc[:, census_data_raw.columns.str.contains('POPESTIMATE') 
 | census_data_raw.columns.str.contains('CTYNAME') 
@@ -128,14 +123,18 @@ census_raw = census_data_raw.loc[:, census_data_raw.columns.str.contains('POPEST
 
 census_melt = census_raw.melt(id_vars=['STNAME', 'CTYNAME'], var_name = 'DATE')
 
+census_melt['YEAR'] = (census_melt['DATE'].str.slice(start=11)).astype('int')
+
+print(census_melt)
+
 # print(zillow_melt)
 
 # print(census_melt)
 
-# all_data = pd.merge(zillow_melt, 
-# census_melt,
-# how = "inner", 
-# on = ['STNAME', 'CTYNAME', ''])
+all_data = pd.merge(zillow_melt, 
+census_melt,
+how = "inner", 
+on = ['STNAME', 'CTYNAME', 'YEAR'])
 
 # print(all_data)
 
