@@ -140,7 +140,6 @@ census_index['POPWEIGHT'] = census_index['POPULATION'].div(census_index['STATEPO
 
 #remove state pop rows
 census_index = census_index[census_index["STNAME"] != census_index["CTYNAME"]]
-# print(census_index)
 
 # merge zillow and pop
 all_data = pd.merge(zillow_melt, 
@@ -148,29 +147,12 @@ census_index,
 how = "inner", 
 on = ['STNAME', 'CTYNAME', 'YEAR'])
 
-
+#round W_PRICE
 all_data['W_PRICE'] = all_data['POPWEIGHT'].mul(all_data['PRICE']).round(decimals=2)
+
+#select relevant cols
 Merged_Final = all_data[['STNAME', 'CTYNAME', 'PRICE', 'YEAR', 
     'POPULATION', 'STATEPOP', 'POPWEIGHT', 'W_PRICE']]
+
+#write csv file
 Merged_Final.to_csv(FINAL_PATH)
-
-'''
-#select state names column and the data columns
-# house_prices = county_time_raw[['STNAME']].join(county_time_raw.loc[:,['/' in i for i in county_time_raw.columns]])
-
-print(house_prices)
-
-#weight counties by state/year populatiuon
-
-#group all counties by states and calculate mean for each columns
-house_prices = house_prices.groupby('STNAME').mean()
-
-#add percentage change column
-house_prices['change'] = (house_prices['1/31/2022'] / house_prices['1/31/2000']) * 100
-
-house_prices = house_prices.loc[:, house_prices.columns.str.contains('12/31')]
-
-
-
-
-print(house_prices)'''
