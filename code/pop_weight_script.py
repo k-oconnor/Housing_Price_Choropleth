@@ -103,42 +103,45 @@ for abb in county_time_raw['State']:
 
 county_time_raw['STNAME'] = state_names
 
-# print(county_time_raw)
-
+# create CTYNAME key col for merge
 county_time_raw['CTYNAME'] = county_time_raw['RegionName']
 
-
+#select relevant cols from zillow data
 zillow_raw = county_time_raw.loc[:, county_time_raw.columns.str.contains('12/31') 
 | county_time_raw.columns.str.contains('CTYNAME') 
 | county_time_raw.columns.str.contains('STNAME')] 
 
+#convert year cols into rows for zillow
 zillow_melt = zillow_raw.melt(id_vars=['STNAME', 'CTYNAME'], value_vars = ['12/31/2010', '12/31/2011', '12/31/2012', '12/31/2013', '12/31/2014', '12/31/2015', '12/31/2016', '12/31/2017', '12/31/2018', '12/31/2019'], var_name = 'DATE', value_name = 'PRICE')
 
+#make values of year columns identical for zillow
 zillow_melt['YEAR'] = (zillow_melt['DATE'].str.slice(start=6)).astype('int')
 
-
+#select relevant cols from census data
 census_raw = census_data_raw.loc[:, census_data_raw.columns.str.contains('POPESTIMATE') 
 | census_data_raw.columns.str.contains('CTYNAME') 
 | census_data_raw.columns.str.contains('STNAME')] 
 
+#convert year cols into rows for zillow
 census_melt = census_raw.melt(id_vars=['STNAME', 'CTYNAME'], var_name = 'DATE', value_name= 'POPULATION')
 
+#make values of year columns identical for census
 census_melt['YEAR'] = (census_melt['DATE'].str.slice(start=11)).astype('int')
 
-pop_index = census_melt[census_melt['CTYNAME']==census_melt['STNAME']]
+#create census index of state populations
+pop_index = census_melt[census_melt['CTYNAME'] == census_melt['STNAME']]
+pop_index['STATEPOP'] = pop_index['POPULATION']
+pop_index = pop_index[['STNAME', 'YEAR', 'STATEPOP']].set_index(['STNAME', 'YEAR'])
 
-print(pop_index)
-
-# print(zillow_melt)
-
-# print(census_melt)
+#join state pop index and county pop and create weight col
+census_index = census_melt.join(pop_index, on= ['STNAME', 'YEAR'])
 
 all_data = pd.merge(zillow_melt, 
-census_melt,
+census_index,
 how = "inner", 
 on = ['STNAME', 'CTYNAME', 'YEAR'])
 
-# print(all_data)
+print(all_data)
 
 '''
 #select state names column and the data columns
