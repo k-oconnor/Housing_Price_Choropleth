@@ -137,7 +137,9 @@ pop_index = pop_index[['STNAME', 'YEAR', 'STATEPOP']].set_index(['STNAME', 'YEAR
 census_index = census_melt.join(pop_index, on= ['STNAME', 'YEAR'])
 census_index['POPWEIGHT'] = census_index['POPULATION'].div(census_index['STATEPOP'])
 
-
+#remove state pop rows
+census_index = census_index[census_index["STNAME"] != census_index["CTYNAME"]]
+# print(census_index)
 
 
 all_data = pd.merge(zillow_melt, 
