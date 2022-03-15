@@ -3,7 +3,7 @@
 
 import csv
 import os
-from pickle import FALSE
+
 import re
 import numpy as np
 import pandas as pd
