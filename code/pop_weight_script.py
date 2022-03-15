@@ -112,7 +112,7 @@ zillow_raw = county_time_raw.loc[:, county_time_raw.columns.str.contains('12/31'
 | county_time_raw.columns.str.contains('CTYNAME') 
 | county_time_raw.columns.str.contains('STNAME')] 
 
-zillow_melt = zillow_raw.melt(id_vars=['STNAME', 'CTYNAME'], value_vars = ['12/31/2010', '12/31/2011', '12/31/2012', '12/31/2013', '12/31/2014', '12/31/2015', '12/31/2016', '12/31/2017', '12/31/2018', '12/31/2019'], var_name = 'DATE')
+zillow_melt = zillow_raw.melt(id_vars=['STNAME', 'CTYNAME'], value_vars = ['12/31/2010', '12/31/2011', '12/31/2012', '12/31/2013', '12/31/2014', '12/31/2015', '12/31/2016', '12/31/2017', '12/31/2018', '12/31/2019'], var_name = 'DATE', value_name = 'PRICE')
 
 zillow_melt['YEAR'] = (zillow_melt['DATE'].str.slice(start=6)).astype('int')
 
@@ -121,11 +121,13 @@ census_raw = census_data_raw.loc[:, census_data_raw.columns.str.contains('POPEST
 | census_data_raw.columns.str.contains('CTYNAME') 
 | census_data_raw.columns.str.contains('STNAME')] 
 
-census_melt = census_raw.melt(id_vars=['STNAME', 'CTYNAME'], var_name = 'DATE')
+census_melt = census_raw.melt(id_vars=['STNAME', 'CTYNAME'], var_name = 'DATE', value_name= 'POPULATION')
 
 census_melt['YEAR'] = (census_melt['DATE'].str.slice(start=11)).astype('int')
 
-print(census_melt)
+pop_index = census_melt[census_melt['CTYNAME']==census_melt['STNAME']]
+
+print(pop_index)
 
 # print(zillow_melt)
 
