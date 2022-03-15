@@ -3,6 +3,7 @@
 
 import csv
 import os
+from pickle import FALSE
 
 import re
 import numpy as np
@@ -155,4 +156,4 @@ Merged_Final = all_data[['STNAME', 'CTYNAME', 'PRICE', 'YEAR',
     'POPULATION', 'STATEPOP', 'POPWEIGHT', 'W_PRICE']]
 
 #write csv file
-Merged_Final.to_csv(FINAL_PATH)
+Merged_Final.to_csv(FINAL_PATH, index=FALSE)
