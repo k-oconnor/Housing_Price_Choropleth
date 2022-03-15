@@ -135,6 +135,10 @@ pop_index = pop_index[['STNAME', 'YEAR', 'STATEPOP']].set_index(['STNAME', 'YEAR
 
 #join state pop index and county pop and create weight col
 census_index = census_melt.join(pop_index, on= ['STNAME', 'YEAR'])
+census_index['POPWEIGHT'] = census_index['POPULATION'].div(census_index['STATEPOP'])
+
+
+
 
 all_data = pd.merge(zillow_melt, 
 census_index,
