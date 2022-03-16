@@ -26,5 +26,3 @@ state_agg = clean_data.groupby(['STNAME', 'YEAR'])['W_PRICE'].sum().to_frame().r
 #create cleaner county-level data
 county_agg = clean_data[['STNAME', 'CTYNAME', 'PRICE', 'YEAR', 
     'POPULATION', 'STATEPOP']]
-
-print(county_agg)
