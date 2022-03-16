@@ -170,7 +170,7 @@ Merged_Final = all_data[['STNAME', 'CTYNAME', 'PRICE', 'YEAR',
 Merged_Final = Merged_Final.groupby(['STNAME', 'YEAR'])['W_PRICE'].mean().to_frame()
 
 price_series = Merged_Final['W_PRICE'].squeeze()
-price_series = price_series.pct_change()
+price_series = price_series.pct_change() * 100
 Merged_Final['Percentage Change'] = price_series
-
+Merged_Final = Merged_Final['Percentage Change'].fillna(value = 0)
 print(Merged_Final)
