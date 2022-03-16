@@ -163,4 +163,10 @@ Copy_Merged_Final = Copy_Merged_Final.filter(items=['STNAME','CTYNAME','YEAR','W
 #Groupby state name, county name and year
 Copy_Merged_Final = Copy_Merged_Final.groupby(['STNAME','CTYNAME', 'YEAR'])['W_PRICE'].sum().to_frame()
 
-print(Copy_Merged_Final)
+#Use pct_change to get the percentage change of weighted price in county level
+price_change = Copy_Merged_Final.pct_change()*100
+
+#replace Nah value with 0
+price_change = price_change.fillna(value=0)
+
+print(price_change)
