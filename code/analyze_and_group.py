@@ -6,8 +6,9 @@ import os
 import re
 import numpy as np
 import pandas as pd
-# cd into the project repo for the relative paths to work. For example:
-# cd /Users/amalkadri/Documents/GitHub/Python_Econ395m/eco395m-homework-6/
+import matplotlib.pyplot as plt
+import plotly.graph_objs as go
+
 IN_PATH = os.path.join("data", "2010-2019-Census-Data-raw.csv")
 OUTPUT_DIR = "artifacts"
 FINAL_HOUSE_PATH = os.path.join(OUTPUT_DIR, "zillow_clean.csv")
@@ -167,10 +168,26 @@ Merged_Final = all_data[['STNAME', 'CTYNAME', 'PRICE', 'YEAR',
     'POPULATION', 'STATEPOP', 'POPWEIGHT', 'W_PRICE']]
 
 #for all counties in the same state, group by state
-Merged_Final = Merged_Final.groupby(['STNAME', 'YEAR'])['W_PRICE'].mean().to_frame()
+merged_final = Merged_Final.groupby(['STNAME', 'YEAR'])['W_PRICE'].mean().to_frame()
 
-price_series = Merged_Final['W_PRICE'].squeeze()
+price_series = merged_final['W_PRICE'].squeeze()
 price_series = price_series.pct_change() * 100
-Merged_Final['Percentage Change'] = price_series
-Merged_Final = Merged_Final['Percentage Change'].fillna(value = 0)
-print(Merged_Final)
+
+merged_final['Percentage_Change'] = price_series
+merged_final['Percentage_Change'].fillna(value = 0).to_frame()
+merged_final['change_from_2010'] = merged_final['W_PRICE'].div(merged_final['W_PRICE'].iloc[0]).sub(1).mul(100)
+print(merged_final)
+
+
+
+# print(Merged_Final)
+# trace1 = go.Scatter(x = Merged_Final.YEAR,
+#                     y = Merged_Final.Percentage_Change,
+#                     name = "plotly example",
+#                     line = dict(color = 'blue'),
+#                     opacity = 0.4)
+
+# layout = dict(title = 'plotly example',)
+
+# fig = dict(data = [trace1], layout = layout)
+# iplot(fig)
