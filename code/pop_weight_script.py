@@ -2,9 +2,9 @@
     and selects the appropriate columns for later merging'''
 
 import csv
+from email import header
 import os
-from pickle import FALSE
-
+from pickle import FALSE, TRUE
 import re
 import numpy as np
 import pandas as pd
@@ -154,6 +154,7 @@ all_data['W_PRICE'] = all_data['POPWEIGHT'].mul(all_data['PRICE']).round(decimal
 #select relevant cols
 Merged_Final = all_data[['STNAME', 'CTYNAME', 'PRICE', 'YEAR', 
     'POPULATION', 'STATEPOP', 'POPWEIGHT', 'W_PRICE']]
-
+Merged_Final.reset_index
+print(Merged_Final)
 #write csv file
-Merged_Final.to_csv(FINAL_PATH, index=FALSE)
+Merged_Final.to_csv(FINAL_PATH, index=TRUE)
