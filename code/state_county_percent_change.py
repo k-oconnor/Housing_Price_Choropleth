@@ -3,8 +3,6 @@
 
 import csv
 import os
-
-import re
 import numpy as np
 import pandas as pd
 # cd into the project repo for the relative paths to work. For example:
@@ -161,12 +159,29 @@ Copy_Merged_Final =Merged_Final.copy()
 Copy_Merged_Final = Copy_Merged_Final.filter(items=['STNAME','CTYNAME','YEAR','W_PRICE'])
 
 #Groupby state name, county name and year
-Copy_Merged_Final = Copy_Merged_Final.groupby(['STNAME','CTYNAME', 'YEAR'])['W_PRICE'].sum().to_frame()
+Copy_Merged_Final = Copy_Merged_Final.groupby(['STNAME','CTYNAME', 'YEAR'])['W_PRICE'].sum()
+
+#Covert 'YEAR' index  to a col
+Copy_Merged_Final = Copy_Merged_Final.reset_index(level=['YEAR'])
+
+Copy_Merged_Final=Copy_Merged_Final['YEAR'].astype(int)
+
+
+
+# Convert 'YEAR' to a int
+# Copy_Merged_Final = Copy_Merged_Final.astype({'YEAR':int})
+
+# rint(type(Copy_Merged_Final['YEAR']))
+
+# Copy_Merged_Final['CHANGE_2010'] = Copy_Merged_Final.groupby(['STNAME','CTYNAME']).W_PRICE.apply(lambda x: x - x.iloc[0]).to_frame()
 
 #Use pct_change to get the percentage change of weighted price in county level
 price_change = Copy_Merged_Final.pct_change()*100
 
-#replace Nah value with 0
+#replace NaN value with 0
 price_change = price_change.fillna(value=0)
 
-print(price_change)
+#rename 'W_PRICE' with 'PCT_CHANGE'
+price_change.rename(columns={'W_PRICE': 'PCT_CHANGE'}, inplace=True)
+
+# print(price_change)
