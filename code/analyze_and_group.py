@@ -6,8 +6,7 @@ import os
 import re
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
-import plotly.graph_objs as go
+import plotly.express as px
 
 IN_PATH = os.path.join("data", "2010-2019-Census-Data-raw.csv")
 OUTPUT_DIR = "artifacts"
@@ -118,7 +117,6 @@ house_prices['change'] = (house_prices['1/31/2022'] / house_prices['1/31/2000'])
 
 # create CTYNAME key col for merge
 county_time_raw['CTYNAME'] = county_time_raw['RegionName']
-print(county_time_raw)
 
 #select relevant cols from zillow data
 zillow_raw = county_time_raw.loc[:, county_time_raw.columns.str.contains('12/31') 
@@ -168,7 +166,7 @@ Merged_Final = all_data[['STNAME', 'CTYNAME', 'PRICE', 'YEAR',
     'POPULATION', 'STATEPOP', 'POPWEIGHT', 'W_PRICE']]
 
 #for all counties in the same state, group by state and year
-merged_final = Merged_Final.groupby(['STNAME', 'YEAR'])['W_PRICE'].mean().to_frame()
+merged_final = Merged_Final.groupby(['STNAME', 'YEAR'])['W_PRICE'].sum().to_frame()
 
 #calculate percentage change from previous year
 price_series = merged_final['W_PRICE'].squeeze()
@@ -176,20 +174,5 @@ price_series = price_series.pct_change() * 100
 
 merged_final['Percentage_Change'] = price_series
 merged_final['Percentage_Change'].fillna(value = 0).to_frame()
-#merged_final['Change_From_2010'] = merged_final['W_PRICE'].div(merged_final['W_PRICE'].iloc[0]).sub(1).mul(100)
-
-merged_final['change_from_2010'] = merged_final.groupby('STNAME')['W_PRICE'].apply(lambda x: x.div(x.iloc[0]).subtract(1).mul(100))
+merged_final['Change_From_2010'] = merged_final.groupby('STNAME')['W_PRICE'].apply(lambda x: x.div(x.iloc[0]).subtract(1).mul(100))
 print(merged_final)
-
-
-# print(Merged_Final)
-# trace1 = go.Scatter(x = Merged_Final.YEAR,
-#                     y = Merged_Final.Percentage_Change,
-#                     name = "plotly example",
-#                     line = dict(color = 'blue'),
-#                     opacity = 0.4)
-
-# layout = dict(title = 'plotly example',)
-
-# fig = dict(data = [trace1], layout = layout)
-# iplot(fig)
