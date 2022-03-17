@@ -2,7 +2,6 @@
     and selects the appropriate columns for later merging'''
 
 import csv
-from imp import PY_RESOURCE
 import os
 import numpy as np
 import pandas as pd
@@ -157,16 +156,15 @@ Merged_Final = all_data[['STNAME', 'CTYNAME', 'PRICE', 'YEAR',
 #Sort the dataframe by state name, cityname and year
 Merged_Final= Merged_Final.sort_values(by = ['STNAME', 'CTYNAME', 'YEAR'], ascending=[True,True,True])
 
-#Use pct_change to get the percentage change of price in county level
+#Use pct_change to get the percentage change of price in county level, replace nan and inf with 0
 Merged_Final['Percent_change'] = (Merged_Final.groupby(['STNAME','CTYNAME'])['PRICE']
-.apply(pd.Series.pct_change) + 1)
+.apply(pd.Series.pct_change)).replace([np.inf, -np.inf], np.nan).fillna(0)
 
-#replace NaN and inf with 0
-Merged_Final.replace([np.inf, -np.inf], 0, inplace=True)
-Merged_Final.fillna(0, inplace=True)
+#Generate total county percent change
+Merged_Final['New_percent_change'] = (Merged_Final['Percent_change'] + 1).astype(float)
 
-#Append price_change into Copy_Merged_Final
+# Group New_percent_change by county and generate County_aggregate
+County_aggregate = Merged_Final.groupby(['STNAME', 'CTYNAME']).prod('New_percent_change')
 
-#replace NaN value with 0
-
-print(Merged_Final.head(50))
+# Get the total percentage of change 
+County_aggregate = (County_aggregate[['New_percent_change']] -1).mul(100)
