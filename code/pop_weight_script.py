@@ -3,14 +3,13 @@
 
 import csv
 import os
-
 import re
 import numpy as np
 import pandas as pd
 # cd into the project repo for the relative paths to work. For example:
 # cd /Users/amalkadri/Documents/GitHub/Python_Econ395m/eco395m-homework-6/
 IN_PATH = os.path.join("data", "2010-2019-Census-Data-raw.csv")
-OUTPUT_DIR = "data"
+OUTPUT_DIR = "artifacts"
 FINAL_PATH = os.path.join(OUTPUT_DIR, "zillow_census_clean.csv")
 
 

@@ -11,7 +11,7 @@ IN_PATH = os.path.join("data", "2010-2019-Census-Data-raw.csv")
 OUTPUT_DIR = "data"
 FINAL_PATH = os.path.join(OUTPUT_DIR, "zillow_census_clean.csv")
 FINAL_PATH_TOTAL = os.path.join(OUTPUT_DIR, 'COUNTY_AGGREGATE.csv')
-FINAL_PATH_ANNUAL = os.path.join(OUTPUT_DIR, 'Merged_Final.csv')
+FINAL_PATH_ANNUAL = os.path.join(OUTPUT_DIR, 'COUNTY_YEARLY.csv')
 
 '''make sure to do some preliminary checking to make sure the county names match and are the same object time to make merging easier'''
 
