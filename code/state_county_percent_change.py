@@ -10,7 +10,8 @@ import pandas as pd
 IN_PATH = os.path.join("data", "2010-2019-Census-Data-raw.csv")
 OUTPUT_DIR = "data"
 FINAL_PATH = os.path.join(OUTPUT_DIR, "zillow_census_clean.csv")
-
+FINAL_PATH_TOTAL = os.path.join(OUTPUT_DIR, 'COUNTY_AGGREGATE.csv')
+FINAL_PATH_ANNUAL = os.path.join(OUTPUT_DIR, 'Merged_Final.csv')
 
 '''make sure to do some preliminary checking to make sure the county names match and are the same object time to make merging easier'''
 
@@ -168,3 +169,8 @@ County_aggregate = Merged_Final.groupby(['STNAME', 'CTYNAME']).prod('New_percent
 
 # Get the total percentage of change 
 County_aggregate = (County_aggregate[['New_percent_change']] -1).mul(100)
+
+
+#Generate two csv
+Merged_Final.to_csv(FINAL_PATH_ANNUAL)
+County_aggregate.to_csv(FINAL_PATH_TOTAL)
