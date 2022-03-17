@@ -170,7 +170,7 @@ County_aggregate = Merged_Final.groupby(['STNAME', 'CTYNAME']).prod('New_percent
 # Get the total percentage of change 
 County_aggregate = (County_aggregate[['New_percent_change']] -1).mul(100)
 
-
+print(Merged_Final)
 #Generate two csv
-Merged_Final.to_csv(FINAL_PATH_ANNUAL)
-County_aggregate.to_csv(FINAL_PATH_TOTAL)
+# Merged_Final.to_csv(FINAL_PATH_ANNUAL)
+# County_aggregate.to_csv(FINAL_PATH_TOTAL)

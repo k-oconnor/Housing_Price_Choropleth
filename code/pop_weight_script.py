@@ -8,17 +8,17 @@ import numpy as np
 import pandas as pd
 # cd into the project repo for the relative paths to work. For example:
 # cd /Users/amalkadri/Documents/GitHub/Python_Econ395m/eco395m-homework-6/
-IN_PATH = os.path.join("data", "2010-2019-Census-Data-raw.csv")
+CENSUS_IN_PATH = os.path.join("data", "2010-2019-Census-Data-raw.csv")
+ZILLOW_IN_PATH = os.path.join("data", "County_zhvi_uc_sfrcondo_tier_0.33_0.67_sm_sa_month.csv")
 OUTPUT_DIR = "artifacts"
 FINAL_PATH = os.path.join(OUTPUT_DIR, "zillow_census_clean.csv")
 
 
 '''make sure to do some preliminary checking to make sure the county names match and are the same object time to make merging easier'''
 
-census_data_raw = pd.read_csv(IN_PATH, encoding = 'latin-1')
+census_data_raw = pd.read_csv(CENSUS_IN_PATH, encoding = 'latin-1') #CENSUS DATA
 
-IN_PATH = os.path.join("data", "County_zhvi_uc_sfrcondo_tier_0.33_0.67_sm_sa_month.csv")
-county_time_raw = pd.read_csv(IN_PATH)
+county_time_raw = pd.read_csv(ZILLOW_IN_PATH) #ZILLOW DATA
 
 #check missing in each column
 '''census_data_raw.isna().sum() #no missing value
