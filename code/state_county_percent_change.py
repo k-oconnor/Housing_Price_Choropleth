@@ -84,6 +84,7 @@ state_to_abb = {
     'Wyoming': 'WY',
 }
 
+
 state_abb = []
 for state in census_data_raw['STNAME']: 
     if state in state_to_abb.keys(): 
@@ -159,23 +160,24 @@ Copy_Merged_Final =Merged_Final.copy()
 Copy_Merged_Final = Copy_Merged_Final.filter(items=['STNAME','CTYNAME','YEAR','W_PRICE'])
 
 #Groupby state name, county name and year
-Copy_Merged_Final = Copy_Merged_Final.groupby(['STNAME','CTYNAME', 'YEAR'])['W_PRICE'].sum()
-
-#Covert 'YEAR' index  to a col
-Copy_Merged_Final = Copy_Merged_Final.reset_index(level=['YEAR'])
-
-#Convert 'YEAR' to an int
-Copy_Merged_Final=Copy_Merged_Final['YEAR'].astype(int)
-
-Copy_Merged_Final['CHANGE_2010'] = Copy_Merged_Final.groupby(['STNAME','CTYNAME']).W_PRICE.apply(lambda x: x - x.iloc[0]).to_frame()
+Copy_Merged_Final = Copy_Merged_Final.groupby(['STNAME','CTYNAME', 'YEAR'])['W_PRICE'].sum().to_frame()
 
 #Use pct_change to get the percentage change of weighted price in county level
 price_change = Copy_Merged_Final.pct_change()*100
 
+#Append price_change into Copy_Merged_Final
+Copy_Merged_Final['PCT_CHANGE'] = price_change
+
+#Covert 'YEAR' index  to a col
+Copy_Merged_Final= Copy_Merged_Final.reset_index(level=['YEAR'])
+
+#Convert 'YEAR' to an int
+Copy_Merged_Final['YEAR']=Copy_Merged_Final['YEAR'].astype(int)
+
 #replace NaN value with 0
-price_change = price_change.fillna(value=0)
+Copy_Merged_Final = Copy_Merged_Final.fillna(value=0)
 
-#rename 'W_PRICE' with 'PCT_CHANGE'
-price_change.rename(columns={'W_PRICE': 'PCT_CHANGE'}, inplace=True)
+#Try to use groupby to calcualte percent change based on 20
 
-print(price_change)
+Copy_Merged_Final['change_from_2010'] = Copy_Merged_Final.groupby(['CTYNAME'])['W_PRICE'].apply(lambda x: x.div(x.iloc[0]).subtract(1).mul(100))
+print(Copy_Merged_Final)
