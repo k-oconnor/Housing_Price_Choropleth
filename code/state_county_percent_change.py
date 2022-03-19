@@ -1,10 +1,9 @@
-'''A script that reads in the realestate and census data sets,
-    and selects the appropriate columns for later merging'''
-
+#import modules
 import csv
 import os
 import numpy as np
 import pandas as pd
+
 # cd into the project repo for the relative paths to work. For example:
 # cd /Users/amalkadri/Documents/GitHub/Python_Econ395m/eco395m-homework-6/
 IN_PATH = os.path.join("data", "2010-2019-Census-Data-raw.csv")
@@ -12,6 +11,7 @@ OUTPUT_DIR = "data"
 FINAL_PATH = os.path.join(OUTPUT_DIR, "zillow_census_clean.csv")
 FINAL_PATH_TOTAL = os.path.join(OUTPUT_DIR, 'COUNTY_AGGREGATE.csv')
 FINAL_PATH_ANNUAL = os.path.join(OUTPUT_DIR, 'COUNTY_YEARLY.csv')
+FINAL_PATH_STATE_AV = os.path.join(OUTPUT_DIR, 'STATE_PRICE_AV.csv')
 
 '''make sure to do some preliminary checking to make sure the county names match and are the same object time to make merging easier'''
 
@@ -104,55 +104,15 @@ for abb in county_time_raw['State']:
 
 county_time_raw['STNAME'] = state_names
 
-# create CTYNAME key col for merge
-county_time_raw['CTYNAME'] = county_time_raw['RegionName']
 
-#select relevant cols from zillow data
-zillow_raw = county_time_raw.loc[:, county_time_raw.columns.str.contains('12/31') 
-| county_time_raw.columns.str.contains('CTYNAME') 
-| county_time_raw.columns.str.contains('STNAME')] 
+#Define import and export pathways 
+IN_PATH = os.path.join("artifacts", 'zillow_census_clean.csv')
+OUTPUT_DIR = "data"
+FINAL_PATH_TOTAL = os.path.join(OUTPUT_DIR, 'STATE_AGGREGATE.csv')
+FINAL_PATH_ANNUAL = os.path.join(OUTPUT_DIR, 'STATE_YEARLY.csv')
 
-#convert year cols into rows for zillow
-zillow_melt = zillow_raw.melt(id_vars=['STNAME', 'CTYNAME'], value_vars = ['12/31/2010', '12/31/2011', '12/31/2012', '12/31/2013', '12/31/2014', '12/31/2015', '12/31/2016', '12/31/2017', '12/31/2018', '12/31/2019'], var_name = 'DATE', value_name = 'PRICE')
-
-#make values of year columns identical for zillow
-zillow_melt['YEAR'] = (zillow_melt['DATE'].str.slice(start=6)).astype('int')
-
-#select relevant cols from census data
-census_raw = census_data_raw.loc[:, census_data_raw.columns.str.contains('POPESTIMATE') 
-| census_data_raw.columns.str.contains('CTYNAME') 
-| census_data_raw.columns.str.contains('STNAME')] 
-
-#convert year cols into rows for zillow
-census_melt = census_raw.melt(id_vars=['STNAME', 'CTYNAME'], var_name = 'DATE', value_name= 'POPULATION')
-
-#make values of year columns identical for census
-census_melt['YEAR'] = (census_melt['DATE'].str.slice(start=11)).astype('int')
-
-#create census index of state populations
-pop_index = census_melt[census_melt['CTYNAME'] == census_melt['STNAME']]
-pop_index['STATEPOP'] = pop_index['POPULATION']
-pop_index = pop_index[['STNAME', 'YEAR', 'STATEPOP']].set_index(['STNAME', 'YEAR'])
-
-#join state pop index and county pop and create weight col
-census_index = census_melt.join(pop_index, on= ['STNAME', 'YEAR'])
-census_index['POPWEIGHT'] = census_index['POPULATION'].div(census_index['STATEPOP'])
-
-#remove state pop rows
-census_index = census_index[census_index["STNAME"] != census_index["CTYNAME"]]
-
-# merge zillow and pop
-all_data = pd.merge(zillow_melt, 
-census_index,
-how = "inner", 
-on = ['STNAME', 'CTYNAME', 'YEAR'])
-
-#round W_PRICE
-all_data['W_PRICE'] = all_data['POPWEIGHT'].mul(all_data['PRICE']).round(decimals=2)
-
-#select relevant cols
-Merged_Final = all_data[['STNAME', 'CTYNAME', 'PRICE', 'YEAR', 
-    'POPULATION', 'STATEPOP', 'POPWEIGHT', 'W_PRICE']]
+#Read previously generated csv file
+Merged_Final = pd.read_csv(IN_PATH)
 
 #Sort the dataframe by state name, cityname and year
 Merged_Final= Merged_Final.sort_values(by = ['STNAME', 'CTYNAME', 'YEAR'], ascending=[True,True,True])
@@ -164,13 +124,17 @@ Merged_Final['Percent_change'] = (Merged_Final.groupby(['STNAME','CTYNAME'])['PR
 #Generate total county percent change
 Merged_Final['New_percent_change'] = (Merged_Final['Percent_change'] + 1).astype(float)
 
+#Generate state average by summing weighted prices of counties
+State_Av = Merged_Final.loc[:,['STNAME','YEAR','W_PRICE']].groupby(['STNAME','YEAR']).sum('W_PRICE').round(decimals=2)
+
 # Group New_percent_change by county and generate County_aggregate
 County_aggregate = Merged_Final.groupby(['STNAME', 'CTYNAME']).prod('New_percent_change')
 
 # Get the total percentage of change 
 County_aggregate = (County_aggregate[['New_percent_change']] -1).mul(100)
 
-print(Merged_Final)
+
 #Generate two csv
-# Merged_Final.to_csv(FINAL_PATH_ANNUAL)
-# County_aggregate.to_csv(FINAL_PATH_TOTAL)
+Merged_Final.to_csv(FINAL_PATH_ANNUAL)
+State_Av.to_csv(FINAL_PATH_STATE_AV)
+County_aggregate.to_csv(FINAL_PATH_TOTAL)
