@@ -23,9 +23,6 @@ Merged_Final['Percent_change'] = (Merged_Final.groupby(['STNAME','CTYNAME'])['PR
 #Generate total county percent change
 Merged_Final['New_percent_change'] = (Merged_Final['Percent_change'] + 1).astype(float)
 
-#Multiple Percent_change by 100
-Merged_Final['Percent_change'] = Merged_Final['Percent_change']
-
 # Group New_percent_change by county and generate County_aggregate
 County_aggregate = Merged_Final.groupby(['STNAME', 'CTYNAME']).prod('New_percent_change')
 
