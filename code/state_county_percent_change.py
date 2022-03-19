@@ -12,6 +12,7 @@ OUTPUT_DIR = "data"
 FINAL_PATH = os.path.join(OUTPUT_DIR, "zillow_census_clean.csv")
 FINAL_PATH_TOTAL = os.path.join(OUTPUT_DIR, 'COUNTY_AGGREGATE.csv')
 FINAL_PATH_ANNUAL = os.path.join(OUTPUT_DIR, 'COUNTY_YEARLY.csv')
+FINAL_PATH_STATE_AV = os.path.join(OUTPUT_DIR, 'STATE_PRICE_AV.csv')
 
 '''make sure to do some preliminary checking to make sure the county names match and are the same object time to make merging easier'''
 
@@ -164,13 +165,16 @@ Merged_Final['Percent_change'] = (Merged_Final.groupby(['STNAME','CTYNAME'])['PR
 #Generate total county percent change
 Merged_Final['New_percent_change'] = (Merged_Final['Percent_change'] + 1).astype(float)
 
+#Generate state average by summing weighted prices of counties
+State_Av = Merged_Final.loc[:,['STNAME','YEAR','W_PRICE']].groupby(['STNAME','YEAR']).sum('W_PRICE').round(decimals=2)
+
 # Group New_percent_change by county and generate County_aggregate
 County_aggregate = Merged_Final.groupby(['STNAME', 'CTYNAME']).prod('New_percent_change')
 
 # Get the total percentage of change 
 County_aggregate = (County_aggregate[['New_percent_change']] -1).mul(100)
 
-print(Merged_Final)
 #Generate two csv
-# Merged_Final.to_csv(FINAL_PATH_ANNUAL)
-# County_aggregate.to_csv(FINAL_PATH_TOTAL)
+Merged_Final.to_csv(FINAL_PATH_ANNUAL)
+State_Av.to_csv(FINAL_PATH_STATE_AV)
+County_aggregate.to_csv(FINAL_PATH_TOTAL)
