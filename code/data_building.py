@@ -23,10 +23,6 @@ census_data_raw = pd.read_csv(CENSUS_IN_PATH, encoding="latin-1")  # CENSUS DATA
 
 county_time_raw = pd.read_csv(ZILLOW_IN_PATH)  # ZILLOW DATA
 
-# check missing in each column
-"""census_data_raw.isna().sum() #no missing value
-county_time_raw.isna().sum()"""
-
 # replace missing values with 0
 county_time_raw[
     [
