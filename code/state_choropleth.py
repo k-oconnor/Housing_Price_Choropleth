@@ -15,9 +15,9 @@ state_raw = pd.read_csv(IN_PATH_2)
 
 fips_dict = {}
 with open (IN_PATH) as in_file:
-    reader = csv.Dictreader(in_file)
+    reader = csv.DictReader(in_file)
     for row in reader:
-        a = row['State']
+        a = row['State'] 
         b = row['FIPS State']
         if a in fips_dict and row['State'] != 'NA':
             pass
