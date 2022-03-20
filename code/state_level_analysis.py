@@ -28,5 +28,5 @@ state_aggregate = state_aggregate[['STNAME','Change_From_2010']]
 print(state_aggregate)
 
 #Generate two csv
-Merged_Final.to_csv(FINAL_PATH_ANNUAL) #'percentage_change' column is the relevant year-on-year change
+merged_final.to_csv(FINAL_PATH_ANNUAL) #'percentage_change' column is the relevant year-on-year change
 state_aggregate.to_csv(FINAL_PATH_TOTAL)
