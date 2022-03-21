@@ -1,7 +1,4 @@
-import csv
 import os
-import re
-import numpy as np
 import pandas as pd
 import plotly.express as px
 import json
@@ -164,3 +161,5 @@ fig_animate = px.choropleth(
     title="Percent Change in House Values over Time",
 )
 fig_animate.show()
+
+
