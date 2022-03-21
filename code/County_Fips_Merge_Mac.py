@@ -1,7 +1,9 @@
-
 import csv
 import os
+import re
+import numpy as np
 import pandas as pd
+import plotly.express as px
 
 
 IN_PATH = os.path.join("Data", "US_FIPS_Codes.csv")
@@ -18,7 +20,7 @@ fips_dict = {}
 with open(IN_PATH) as in_file:
     reader = csv.DictReader(in_file)
     for row in reader:
-        a = (row["ï»¿State"], row["County Name"] + " County")
+        a = (row["\ufeffState"], row["County Name"] + " County")
         b = row["FIPS State"]
         c = row["FIPS County"]
         if a not in fips_dict and row["County Name"] != "NA":
@@ -40,4 +42,3 @@ county_merge_ag = pd.merge(key_frame, county_ag, on=["STNAME", "CTYNAME"])
 
 county_merge.to_csv(FINAL_MERGE_PATH)
 county_merge_ag.to_csv(FINAL_MERGE_PATH_AG)
-
