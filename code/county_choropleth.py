@@ -161,3 +161,5 @@ fig_animate = px.choropleth(
     title="Percent Change in House Values over Time",
 )
 fig_animate.show()
+
+

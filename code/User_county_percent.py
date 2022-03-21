@@ -6,7 +6,7 @@ import pandas as pd
 import plotly.express as px
 import json
 
-IN_PATH = os.path.join("Data", "CTY_Fips_Merge.csv")
+IN_PATH = os.path.join("Data", "COUNTY_AGGREGATE_FIPS.csv")
 IN_PATH_JSON = os.path.join("Data", "geojson-counties-fips.json")
 
 
@@ -18,21 +18,20 @@ with open(IN_PATH_JSON) as response:
 
 def show_state(state):
     df = county_fips[county_fips["STNAME"] == state]
-    state_animate = px.choropleth(
+    state_change = px.choropleth(
         df,
         geojson=counties,
         locations="FIPS",
-        color="PRICE",
+        color="New_percent_change",
         color_continuous_scale="PuBu",
-        range_color=(50000, 1000000),
+        range_color=(0, 100),
         scope="usa",
         labels={"New_percent_change": "Percent Change in Housing Price"},
-        animation_frame="YEAR",
         title="Percent Change in House Values over Time",
     )
-    state_animate.update_geos(fitbounds="locations", visible=False)
-    state_animate.update_layout(margin={"r": 0, "t": 0, "l": 0, "b": 0})
-    state_animate.show()
+    state_change.update_geos(fitbounds="locations", visible=False)
+    state_change.update_layout(margin={"r": 0, "t": 0, "l": 0, "b": 0})
+    state_change.show()
     return
 
 
