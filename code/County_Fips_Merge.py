@@ -1,4 +1,3 @@
-
 import csv
 import os
 import pandas as pd
@@ -40,4 +39,3 @@ county_merge_ag = pd.merge(key_frame, county_ag, on=["STNAME", "CTYNAME"])
 
 county_merge.to_csv(FINAL_MERGE_PATH)
 county_merge_ag.to_csv(FINAL_MERGE_PATH_AG)
-
