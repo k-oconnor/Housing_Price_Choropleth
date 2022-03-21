@@ -10,4 +10,6 @@ Using the state, county, and year as a key, the datasets were joined. Using the 
 
 For the county level data, each observation was already grouped with the merged datasets. Additionally, since the objective was to get the precent price change within a county, precent change on the county level was calculated with the average price, not the price weighted by the state population. The precent change was calculated between the average real estate prices for counties from year to year. Due to issues with how the data was grouped, or lack thereof, only the total cumulative precent change from 2010 was calculated, not the accumulation of the percent change in the interceding years from 2011-2018.
 
-Additional datasets were required to take the aggregated information and display it in cloropleth maps.
+Additional datasets were required to take the aggregated information and display it in chloropleth maps.
+
+One potential avenue for more precise analysis could be to alter how the statewide population prices were weighted. The prices in this study are weighted by the proportion of the state populations, but another aspect real estate pricing relates to how populous a state is compared to the country as a whole. A certain county could be weighted heavily based on the proportion of state population that lives there, but could be in a relatively less populated state, distorting the relevancy of that price with a larger proportion of a smaller number of people than a more populous state. Additionally
