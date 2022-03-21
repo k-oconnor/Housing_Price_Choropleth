@@ -8,7 +8,7 @@ IN_PATH_JSON = os.path.join("Data", "us-states.json")
 
 
 state_fips = pd.read_csv(IN_PATH,dtype={'FIPS':str})
-print(state_fips)
+# print(state_fips)
 
 with open (IN_PATH_JSON) as response:
     states = json.load(response)
