@@ -1,18 +1,25 @@
+"""After running the 'build' scripts, this script will prompt the user to type in the name of a state.
+Once a state is typed in, and the user presses ENTER, a choropleth will display of the state with all of
+its counties, colored by percent change from 2010-2019."""
+
+# Import modules
 import os
 import pandas as pd
 import plotly.express as px
 import json
 
+# Set paths and directories
 IN_PATH = os.path.join("data", "COUNTY_AGGREGATE_FIPS.csv")
 IN_PATH_JSON = os.path.join("data", "geojson-counties-fips.json")
 
-
+# Saves county-level dataframe into an object
 county_fips = pd.read_csv(IN_PATH, dtype={"FIPS": str})
 
+# Loads in json data that will tell plotly the corrdinates for counties
 with open(IN_PATH_JSON) as response:
     counties = json.load(response)
 
-
+# builds a function that will take a user input and builds a choropleth of a state broken up by counties
 def show_state(state):
     df = county_fips[county_fips["STNAME"] == state]
     state_change = px.choropleth(
@@ -32,5 +39,8 @@ def show_state(state):
     return
 
 
+# prompts the user to type in a state
 state = input("Enter a state name with uppercase first letter: ")
+
+# shows choropleth
 show_state(state)
