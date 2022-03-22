@@ -1,13 +1,10 @@
-import csv
 import os
-import re
-import numpy as np
 import pandas as pd
 import plotly.express as px
 import json
 
-IN_PATH = os.path.join("Data", "COUNTY_AGGREGATE_FIPS.csv")
-IN_PATH_JSON = os.path.join("Data", "geojson-counties-fips.json")
+IN_PATH = os.path.join("data", "COUNTY_AGGREGATE_FIPS.csv")
+IN_PATH_JSON = os.path.join("data", "geojson-counties-fips.json")
 
 
 county_fips = pd.read_csv(IN_PATH, dtype={"FIPS": str})

@@ -3,8 +3,8 @@ import pandas as pd
 import plotly.express as px
 import json
 
-IN_PATH = os.path.join("Data", "ST_Agg_Fips_Merge.csv")
-IN_PATH_JSON = os.path.join("Data", "us-states.json")
+IN_PATH = os.path.join("data", "ST_Agg_Fips_Merge.csv")
+IN_PATH_JSON = os.path.join("data", "us-states.json")
 
 
 state_fips = pd.read_csv(IN_PATH, dtype={"FIPS": str})
@@ -26,3 +26,4 @@ fig = px.choropleth(
     title="Percent Change in House Values over Time",
 )
 fig.show()
+

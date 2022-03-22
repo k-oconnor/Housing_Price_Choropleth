@@ -3,8 +3,8 @@ import pandas as pd
 import plotly.express as px
 import json
 
-IN_PATH = os.path.join("Data", "CTY_Fips_Merge.csv")
-IN_PATH_JSON = os.path.join("Data", "geojson-counties-fips.json")
+IN_PATH = os.path.join("data", "CTY_Fips_Merge.csv")
+IN_PATH_JSON = os.path.join("data", "geojson-counties-fips.json")
 
 
 county_fips = pd.read_csv(IN_PATH, dtype={"FIPS": str})
@@ -35,3 +35,4 @@ def show_state(state):
 
 state = input("Enter a state name with uppercase first letter: ")
 show_state(state)
+
