@@ -20,6 +20,8 @@ with open(IN_PATH_JSON) as response:
     counties = json.load(response)
 
 # builds a function that will take a user input and builds a choropleth of a state broken up by counties
+
+
 def show_state(state):
     df = county_fips[county_fips["STNAME"] == state]
     state_animate = px.choropleth(
@@ -39,8 +41,16 @@ def show_state(state):
     state_animate.show()
     return
 
+
 # prompts the user to type in a state
 state = input("Enter a state name with uppercase first letter: ")
 
-# displays choropleth
-show_state(state)
+# displays choropleth and handles exceptions if state isnt valid
+states_list = county_fips['STNAME'].unique()
+
+if state in states_list:
+    show_state(state)
+elif state == "end":
+    print("Have a great day!")
+else:
+    print("You have not entered a valid State. Please rerun the program, thank you")
