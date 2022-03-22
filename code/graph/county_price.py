@@ -23,9 +23,9 @@ def show_state(state):
         color_continuous_scale="PuBu",
         range_color=(50000, 1000000),
         scope="usa",
-        labels={"New_percent_change": "Percent Change in Housing Price"},
+        labels={"PRICE": "Housing Price"},
         animation_frame="YEAR",
-        title="Percent Change in House Values over Time",
+        title="Change in House Values Over Time by County",
     )
     state_animate.update_geos(fitbounds="locations", visible=False)
     state_animate.update_layout(margin={"r": 0, "t": 0, "l": 0, "b": 0})
@@ -35,4 +35,3 @@ def show_state(state):
 
 state = input("Enter a state name with uppercase first letter: ")
 show_state(state)
-

@@ -22,8 +22,7 @@ fig = px.choropleth(
     color_continuous_scale="PuBu",
     range_color=(0, 125),
     scope="usa",
-    labels={"Change_From_2010": "Percent Change from 2010"},
-    title="Percent Change in House Values over Time",
+    labels={"Change_From_2010": "Percent Change in Housing Price"},
+    title="Percent Change in House Values from 2010-2019 by State",
 )
 fig.show()
-
