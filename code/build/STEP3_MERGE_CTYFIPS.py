@@ -23,11 +23,18 @@ fips_dict = {}
 with open(IN_PATH) as in_file:
     reader = csv.DictReader(in_file)
     for row in reader:
-        a = (row["State"], row["County Name"] + " County")
-        b = row["FIPS State"]
-        c = row["FIPS County"]
-        if a not in fips_dict and row["County Name"] != "NA":
-            fips_dict[a] = b + c
+        if row["State"] == "Louisiana":
+            a = (row["State"], row["County Name"] + " Parish")
+            b = row["FIPS State"]
+            c = row["FIPS County"]
+            if a not in fips_dict and row["County Name"] != "NA":
+                fips_dict[a] = b + c
+        else:
+            a = (row["State"], row["County Name"] + " County")
+            b = row["FIPS State"]
+            c = row["FIPS County"]
+            if a not in fips_dict and row["County Name"] != "NA":
+                fips_dict[a] = b + c
 
 # Making the dictionary into a list
 keys = list(fips_dict.keys())
@@ -40,6 +47,8 @@ for i in range(len(keys)):
 
 # Making list into a dataframe
 key_frame = pd.DataFrame(key_list, columns=["STNAME", "CTYNAME", "FIPS"])
+
+# print(key_frame[key_frame["STNAME"] == "Louisiana"])
 
 # Merges dataframes into final product to be saved into CSVs.
 county_merge = pd.merge(key_frame, county_raw, on=["STNAME", "CTYNAME"])
