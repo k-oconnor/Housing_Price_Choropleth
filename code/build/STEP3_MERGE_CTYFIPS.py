@@ -3,10 +3,10 @@ import os
 import pandas as pd
 
 
-IN_PATH = os.path.join("Data", "US_FIPS_Codes.csv")
-IN_PATH_2 = os.path.join("Data", "COUNTY_YEARLY.csv")
-IN_PATH_AG = os.path.join("Data", "COUNTY_AGGREGATE.csv")
-OUTPUT_DIR = "Data"
+IN_PATH = os.path.join("data", "US_FIPS_Codes.csv")
+IN_PATH_2 = os.path.join("data", "COUNTY_YEARLY.csv")
+IN_PATH_AG = os.path.join("data", "COUNTY_AGGREGATE.csv")
+OUTPUT_DIR = "data"
 FINAL_MERGE_PATH = os.path.join(OUTPUT_DIR, "CTY_Fips_Merge.csv")
 FINAL_MERGE_PATH_AG = os.path.join(OUTPUT_DIR, "COUNTY_AGGREGATE_FIPS.csv")
 
@@ -17,7 +17,7 @@ fips_dict = {}
 with open(IN_PATH) as in_file:
     reader = csv.DictReader(in_file)
     for row in reader:
-        a = (row["ï»¿State"], row["County Name"] + " County")
+        a = (row["State"], row["County Name"] + " County")
         b = row["FIPS State"]
         c = row["FIPS County"]
         if a not in fips_dict and row["County Name"] != "NA":
