@@ -1,3 +1,9 @@
+'''Imports Census data for population information and Zillow data for housing price info
+    from 2010-2019. Then cleans and merges both data sets to weight county-level house 
+    prices by population. Then calculates percentage change in housing price (both
+    year-on-year and aggregate from 2010-2019. Finally produces csvs for these changes
+    at both the state and county level, as well as one for state-level prices.'''
+
 # import modules
 import csv
 import os
@@ -16,8 +22,6 @@ FINAL_PATH_CTY_ANNUAL = os.path.join(OUTPUT_DIR, "COUNTY_YEARLY.csv")
 FINAL_PATH_ST_AV = os.path.join(OUTPUT_DIR, "STATE_PRICE_AV.csv")
 FINAL_PATH_ST_TOTAL = os.path.join(OUTPUT_DIR, "STATE_AGGREGATE.csv")
 FINAL_PATH_ST_ANNUAL = os.path.join(OUTPUT_DIR, "STATE_YEARLY.csv")
-
-"""make sure to do some preliminary checking to make sure the county names match and are the same object time to make merging easier"""
 
 census_data_raw = pd.read_csv(CENSUS_IN_PATH, encoding="latin-1")  # CENSUS DATA
 
