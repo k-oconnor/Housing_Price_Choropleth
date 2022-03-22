@@ -244,6 +244,8 @@ Merged_Final = all_data[
         "W_PRICE",
     ]
 ]
+
+# standardize 'CTYNAME' to all be called "_ County"
 Merged_Final['CTYNAME'] = Merged_Final["CTYNAME"].str.replace(
     'Borough', 'County')
 Merged_Final['CTYNAME'] = Merged_Final["CTYNAME"].str.replace(
