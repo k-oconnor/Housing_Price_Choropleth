@@ -1,7 +1,4 @@
 ###### Requirements without Version Specifiers ######
-csv
-os
 numpy
 pandas
 plotly.express
-json
