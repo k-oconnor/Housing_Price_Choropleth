@@ -24,7 +24,7 @@ def show_state(state):
         range_color=(0, 100),
         scope="usa",
         labels={"New_percent_change": "Percent Change in Housing Price"},
-        title="Percent Change in House Values over Time",
+        title="Percent Change in House Values from 2010-2019 by County",
     )
     state_change.update_geos(fitbounds="locations", visible=False)
     state_change.update_layout(margin={"r": 0, "t": 0, "l": 0, "b": 0})

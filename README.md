@@ -33,7 +33,7 @@ Using the state, county, and year as a key, the datasets were joined. Using the 
 ## County Level Aggregation
 For the county level data, each observation was already grouped with the merged datasets. Additionally, since the objective was to get the percent price change within a county, percent change on the county level was calculated with the average price, not the price weighted by the state population. The percent change was calculated between the average real estate prices for counties from year to year and the cumulative percent change in price from the 2010 baseline price.
 
-## Choropleth Preperation
+## Choropleth Preparation
 Additional datasets were required to take the aggregated information and display it in choropleth maps. geojson files which contained latitudinal and longitudinal data representing the coordinates for counties and states were used in conjunction with the plotly package to draw counties and states on a blank map of the US, which. Additionally a FIPS data set which encoded the state and counties into numeric codes was used as an intermediary to join the aggregate price data and the geographic coordinates, which. The FIPS was joined to the pricing data on the state and county fields, and the resulting dataset was then joined to the geographic data via the FIPS code field. From that aggregated data frame a choropleth map could be generated using the choropleth package.
 
 ## Choropleth Visualization
