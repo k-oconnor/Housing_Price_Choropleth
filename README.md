@@ -1,10 +1,14 @@
 # Housing_Price_Chloropleth
 
 ## Instructions - How to use this code
+
 Preliminary: In terminal, change directory to the project folder Housing_Price_Chloropleth with command:
     cd Housing_Price_Chloropleth
+
 Step 1: In bash, run command "python3 STEP1_CLEAN.py" to clean and merge the Zillow and Census data into pricing data
+
 Step 2: In bash, run command "python3 STEP2_FIPS.py" to merge the FIPS with the pricing data
+
 Step 3: In bash, run command "python3 STEP3_CTYFIPS.py" to merge the pricing data with geojson data
 
 For animated average weighted real estate price for all US states from 2010-2019: In bash, run command "python3 state_price.py"
