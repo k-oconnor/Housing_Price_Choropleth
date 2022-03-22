@@ -11,7 +11,7 @@ import numpy as np
 import pandas as pd
 
 # cd into the project repo for the relative paths to work. For example:
-# cd /Users/amalkadri/Documents/GitHub/Python_Econ395m/eco395m-homework-6/
+# cd /Users/amalkadri/Documents/GitHub/Python_Econ395m/Housing_Price_Choropleth/
 CENSUS_IN_PATH = os.path.join("data", "2010-2019-Census-Data-raw.csv")
 ZILLOW_IN_PATH = os.path.join(
     "data", "County_zhvi_uc_sfrcondo_tier_0.33_0.67_sm_sa_month.csv"

@@ -1,6 +1,11 @@
+"""Takes the state-level dataframes created in STEP1_CLEAN.py and merges the 
+appropriate FIPS codes to each state to be used in creating choropleths."""
+
+# import modules
 import os
 import pandas as pd
 
+# set paths and directories
 IN_PATH = os.path.join("data", "US_FIPS_Codes.csv")
 IN_PATH_AV = os.path.join("data", "STATE_PRICE_AV.csv")
 IN_PATH_AGG = os.path.join("data", "STATE_AGGREGATE.csv")
@@ -8,9 +13,11 @@ OUTPUT_DIR = "data"
 FINAL_MERGE_PATH_AV = os.path.join(OUTPUT_DIR, "ST_yoy_avg_fips_Merge.csv")
 FINAL_MERGE_PATH_AGG = os.path.join(OUTPUT_DIR, "ST_Agg_Fips_Merge.csv")
 
+# reads in data and saves them in objects
 state_raw_av = pd.read_csv(IN_PATH_AV)
 state_raw_agg = pd.read_csv(IN_PATH_AGG)
 
+# creates dictionary mapping states to the appropriate FIPS code
 fips_dict = {
     "Alabama": "01",
     "Montana": "30",
@@ -64,7 +71,7 @@ fips_dict = {
     "Wyoming": "56",
 }
 
-
+# Merges FIPS codes to dataframes to be used in making choropleths
 state_raw_agg["FIPS"] = state_raw_agg["STNAME"].map(fips_dict)
 state_raw_agg.to_csv(FINAL_MERGE_PATH_AGG)
 
