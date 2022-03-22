@@ -3,8 +3,8 @@ import pandas as pd
 import plotly.express as px
 import json
 
-IN_PATH = os.path.join("Data", "ST_yoy_avg_fips_Merge.csv")
-IN_PATH_JSON = os.path.join("Data", "us-states.json")
+IN_PATH = os.path.join("data", "ST_yoy_avg_fips_Merge.csv")
+IN_PATH_JSON = os.path.join("data", "us-states.json")
 
 
 state_fips_yoy = pd.read_csv(IN_PATH, dtype={"FIPS": str})
