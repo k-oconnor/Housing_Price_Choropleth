@@ -298,3 +298,4 @@ County_aggregate.to_csv(FINAL_PATH_CTY_TOTAL)
 State_Av.to_csv(FINAL_PATH_ST_AV)
 state_aggregate.to_csv(FINAL_PATH_ST_TOTAL)
 State_Yearly.to_csv(FINAL_PATH_ST_ANNUAL)
+
