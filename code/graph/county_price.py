@@ -30,7 +30,6 @@ def show_state(state):
         locations="FIPS",
         color="PRICE",
         color_continuous_scale="PuBu",
-        range_color=(50000, 1000000),
         scope="usa",
         labels={"PRICE": "Housing Price"},
         animation_frame="YEAR",

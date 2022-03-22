@@ -48,7 +48,7 @@ states_list = county_fips['STNAME'].unique()
 # prompts the user to type in a state
 state = input("Enter a state name with uppercase first letter: ")
 state = state.title()
-print(state)
+
 # shows choropleth and handles exceptions if state isn't valid
 if state in states_list:
     show_state(state)
