@@ -62,11 +62,11 @@ Alabama,Walker County,7.35
 Alabama,Washington County,0.0
 Alabama,Wilcox County,8.51
 Alabama,Winston County,11.89
-Alaska,Fairbanks North Star Borough,10.09
-Alaska,Kenai Peninsula Borough,24.86
-Alaska,Ketchikan Gateway Borough,21.24
-Alaska,Kodiak Island Borough,35.89
-Alaska,Petersburg Borough,5.35
+Alaska,Fairbanks North Star County,10.09
+Alaska,Kenai Peninsula County,24.86
+Alaska,Ketchikan Gateway County,21.24
+Alaska,Kodiak Island County,35.89
+Alaska,Petersburg County,5.35
 Arizona,Apache County,73.36
 Arizona,Cochise County,64.98
 Arizona,Coconino County,39.49
@@ -1530,7 +1530,7 @@ Nebraska,Washington County,33.63
 Nebraska,Wayne County,51.64
 Nebraska,Webster County,47.99
 Nebraska,York County,20.03
-Nevada,Carson City,105.69
+Nevada,Carson County,105.69
 Nevada,Churchill County,112.3
 Nevada,Clark County,99.75
 Nevada,Douglas County,95.9
@@ -2476,7 +2476,7 @@ Virginia,Buckingham County,17.77
 Virginia,Campbell County,24.72
 Virginia,Caroline County,12.2
 Virginia,Carroll County,21.53
-Virginia,Charles City County,17.88
+Virginia,Charles County County,17.88
 Virginia,Charlotte County,19.9
 Virginia,Chesterfield County,21.67
 Virginia,Clarke County,10.34
@@ -2504,7 +2504,7 @@ Virginia,Henrico County,25.44
 Virginia,Henry County,10.85
 Virginia,Highland County,7.67
 Virginia,Isle of Wight County,14.92
-Virginia,James City County,8.34
+Virginia,James County County,8.34
 Virginia,King George County,14.63
 Virginia,King William County,18.12
 Virginia,King and Queen County,-11.71

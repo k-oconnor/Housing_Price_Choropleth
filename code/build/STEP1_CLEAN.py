@@ -23,7 +23,8 @@ FINAL_PATH_ST_AV = os.path.join(OUTPUT_DIR, "STATE_PRICE_AV.csv")
 FINAL_PATH_ST_TOTAL = os.path.join(OUTPUT_DIR, "STATE_AGGREGATE.csv")
 FINAL_PATH_ST_ANNUAL = os.path.join(OUTPUT_DIR, "STATE_YEARLY.csv")
 
-census_data_raw = pd.read_csv(CENSUS_IN_PATH, encoding="latin-1")  # CENSUS DATA
+census_data_raw = pd.read_csv(
+    CENSUS_IN_PATH, encoding="latin-1")  # CENSUS DATA
 
 county_time_raw = pd.read_csv(ZILLOW_IN_PATH)  # ZILLOW DATA
 
@@ -210,11 +211,13 @@ census_melt["YEAR"] = (census_melt["DATE"].str.slice(start=11)).astype("int")
 # create census index of state populations
 pop_index = census_melt[census_melt["CTYNAME"] == census_melt["STNAME"]]
 pop_index["STATEPOP"] = pop_index["POPULATION"]
-pop_index = pop_index[["STNAME", "YEAR", "STATEPOP"]].set_index(["STNAME", "YEAR"])
+pop_index = pop_index[["STNAME", "YEAR", "STATEPOP"]
+                      ].set_index(["STNAME", "YEAR"])
 
 # join state pop index and county pop and create weight col
 census_index = census_melt.join(pop_index, on=["STNAME", "YEAR"])
-census_index["POPWEIGHT"] = census_index["POPULATION"].div(census_index["STATEPOP"])
+census_index["POPWEIGHT"] = census_index["POPULATION"].div(
+    census_index["STATEPOP"])
 
 # remove state pop rows
 census_index = census_index[census_index["STNAME"] != census_index["CTYNAME"]]
@@ -225,7 +228,8 @@ all_data = pd.merge(
 )
 
 # round W_PRICE
-all_data["W_PRICE"] = all_data["POPWEIGHT"].mul(all_data["PRICE"]).round(decimals=2)
+all_data["W_PRICE"] = all_data["POPWEIGHT"].mul(
+    all_data["PRICE"]).round(decimals=2)
 
 # select relevant cols
 Merged_Final = all_data[
@@ -240,7 +244,10 @@ Merged_Final = all_data[
         "W_PRICE",
     ]
 ]
-
+Merged_Final['CTYNAME'] = Merged_Final["CTYNAME"].str.replace(
+    'Borough', 'County')
+Merged_Final['CTYNAME'] = Merged_Final["CTYNAME"].str.replace(
+    'City', 'County')
 State_Yearly = Merged_Final.round(decimals=4)
 
 # Sort the dataframe by state name, cityname and year
@@ -250,14 +257,16 @@ Merged_Final = Merged_Final.sort_values(
 
 # Use pct_change to get the percentage change of price in county level, replace nan and inf with 0
 Merged_Final["Percent_change"] = (
-    (Merged_Final.groupby(["STNAME", "CTYNAME"])["PRICE"].apply(pd.Series.pct_change))
+    (Merged_Final.groupby(["STNAME", "CTYNAME"])
+     ["PRICE"].apply(pd.Series.pct_change))
     .replace([np.inf, -np.inf], np.nan)
     .fillna(0)
     .round(decimals=4)
 )
 
 # Generate total county percent change
-Merged_Final["New_percent_change"] = (Merged_Final["Percent_change"] + 1).astype(float)
+Merged_Final["New_percent_change"] = (
+    Merged_Final["Percent_change"] + 1).astype(float)
 
 # Group New_percent_change by county and generate County_aggregate
 County_aggregate = Merged_Final.groupby(["STNAME", "CTYNAME"]).prod(
@@ -278,7 +287,8 @@ State_Av = (
 )
 
 # for all counties in the same state, group by state and year
-merged_final = Merged_Final.groupby(["STNAME", "YEAR"])["W_PRICE"].sum().to_frame()
+merged_final = Merged_Final.groupby(["STNAME", "YEAR"])[
+    "W_PRICE"].sum().to_frame()
 
 # calculate percentage change from previous year
 price_series = merged_final["W_PRICE"].squeeze()
@@ -302,4 +312,3 @@ County_aggregate.to_csv(FINAL_PATH_CTY_TOTAL)
 State_Av.to_csv(FINAL_PATH_ST_AV)
 state_aggregate.to_csv(FINAL_PATH_ST_TOTAL)
 State_Yearly.to_csv(FINAL_PATH_ST_ANNUAL)
-
