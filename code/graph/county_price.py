@@ -44,6 +44,7 @@ def show_state(state):
 
 # prompts the user to type in a state
 state = input("Enter a state name with uppercase first letter: ")
+state = state.title()
 
 # displays choropleth and handles exceptions if state isnt valid
 states_list = county_fips['STNAME'].unique()
@@ -53,4 +54,4 @@ if state in states_list:
 elif state == "end":
     print("Have a great day!")
 else:
-    print("You have not entered a valid State. Please rerun the program, thank you")
+    print("You have not entered a valid State. Please rerun the program, thank you.")
