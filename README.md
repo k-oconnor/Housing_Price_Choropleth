@@ -1,5 +1,8 @@
 # Housing_Price_Chloropleth
 
+## Instructions
+
+
 ## Overview
 The objective of this project was to visualize percent change in average real estate prices on nation wide and state wide choropleth maps from 2010 to 2019. Percent change was measured on a year to year basis as well as total percent change accrued during the decade from a base line year (2010). Presenting the data in this way would allow an intuitive view of real asset growth in the United States, with the option of "zooming in" to the state level to see which counties drove those price changes.
 
