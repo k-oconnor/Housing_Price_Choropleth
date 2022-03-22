@@ -4,8 +4,8 @@
 
 Preliminary: In terminal, change directory to the project folder Housing_Price_Chloropleth with command:
     cd Housing_Price_Chloropleth
-             
-             Import required modules from "requirements.txt"
+
+Import: Import required modules from "requirements.txt"
 
 Step 1: In bash, run command "python3 STEP1_CLEAN.py" to clean and merge the Zillow and Census data into pricing data
 
