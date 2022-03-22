@@ -1,10 +1,10 @@
 import os
 import pandas as pd
 
-IN_PATH = os.path.join("Data", "US_FIPS_Codes.csv")
-IN_PATH_AV = os.path.join("Data", "STATE_PRICE_AV.csv")
-IN_PATH_AGG = os.path.join("Data", "STATE_AGGREGATE.csv")
-OUTPUT_DIR = "Data"
+IN_PATH = os.path.join("data", "US_FIPS_Codes.csv")
+IN_PATH_AV = os.path.join("data", "STATE_PRICE_AV.csv")
+IN_PATH_AGG = os.path.join("data", "STATE_AGGREGATE.csv")
+OUTPUT_DIR = "data"
 FINAL_MERGE_PATH_AV = os.path.join(OUTPUT_DIR, "ST_yoy_avg_fips_Merge.csv")
 FINAL_MERGE_PATH_AGG = os.path.join(OUTPUT_DIR, "ST_Agg_Fips_Merge.csv")
 
